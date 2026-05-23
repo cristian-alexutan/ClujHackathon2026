@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Unitbv from "./pages/unitbv";
 import Utcn from "./pages/utcn";
 import { Card } from "./components/ui/card";
@@ -6,7 +6,12 @@ import unitbvImg from "./assets/unitbv.jpg";
 import utcnImg from "./assets/utcn.jpg";
 
 function App() {
-  const [view, setView] = useState("home");
+  const [view, setView] = useState(() => {
+    const hash = window.location.hash;
+    if (hash === "#/unitbv") return "unitbv";
+    if (hash === "#/utcn") return "utcn";
+    return "home";
+  });
 
   // Keep theme class updated on page load
   useState(() => {
@@ -19,12 +24,39 @@ function App() {
     }
   });
 
+  // Listen for browser back/forward and direct links
+  useEffect(() => {
+    const handleHashChange = () => {
+      const hash = window.location.hash;
+      if (hash === "#/unitbv") {
+        setView("unitbv");
+      } else if (hash === "#/utcn") {
+        setView("utcn");
+      } else {
+        setView("home");
+      }
+    };
+
+    window.addEventListener("hashchange", handleHashChange);
+    return () => window.removeEventListener("hashchange", handleHashChange);
+  }, []);
+
+  const navigateTo = (newView) => {
+    if (newView === "unitbv") {
+      window.location.hash = "/unitbv";
+    } else if (newView === "utcn") {
+      window.location.hash = "/utcn";
+    } else {
+      window.location.hash = "/";
+    }
+  };
+
   if (view === "unitbv") {
-    return <Unitbv onBack={() => setView("home")} />;
+    return <Unitbv onBack={() => navigateTo("home")} />;
   }
 
   if (view === "utcn") {
-    return <Utcn onBack={() => setView("home")} />;
+    return <Utcn onBack={() => navigateTo("home")} />;
   }
 
   return (
@@ -40,11 +72,11 @@ function App() {
         </p>
       </div>
 
-      <div className="flex flex-col gap-6 w-full items-center max-w-md mt-2">
+      <div className="flex flex-col gap-6 w-full items-center max-w-[538px] mt-2">
         {/* Card UniTBV */}
         <Card
-          onClick={() => setView("unitbv")}
-          className="relative flex flex-col justify-between overflow-hidden cursor-pointer rounded-2xl border border-border/80 hover:border-[#007A87]/50 hover:shadow-2xl hover:scale-[1.02] active:scale-[0.98] transition-all w-full h-56 p-6 group"
+          onClick={() => navigateTo("unitbv")}
+          className="relative flex flex-col justify-between overflow-hidden cursor-pointer rounded-2xl shadow-md hover:shadow-2xl transition-all w-full h-[295px] p-6 group"
         >
           {/* Background Image */}
           <img
@@ -58,7 +90,7 @@ function App() {
           {/* Card Content */}
           <div className="relative z-20 flex flex-col justify-between h-full text-white">
             <div className="flex justify-between items-start">
-              <div className="h-11 w-11 rounded-xl bg-gradient-to-br from-[#007A87] to-[#005f69] flex items-center justify-center text-white font-black text-xs shadow-md border border-white/10 shrink-0">
+              <div className="h-14 w-14 rounded-xl bg-gradient-to-br from-[#007A87] to-[#005f69] flex items-center justify-center text-white font-black text-sm px-3 py-2 shadow-md border border-white/10 shrink-0">
                 UniTBV
               </div>
             </div>
@@ -75,8 +107,8 @@ function App() {
 
         {/* Card UTCN */}
         <Card
-          onClick={() => setView("utcn")}
-          className="relative flex flex-col justify-between overflow-hidden cursor-pointer rounded-2xl border border-border/80 hover:border-[#4261e4]/50 hover:shadow-2xl hover:scale-[1.02] active:scale-[0.98] transition-all w-full h-56 p-6 group"
+          onClick={() => navigateTo("utcn")}
+          className="relative flex flex-col justify-between overflow-hidden cursor-pointer rounded-2xl shadow-md hover:shadow-2xl transition-all w-full h-[295px] p-6 group"
         >
           {/* Background Image */}
           <img
@@ -90,7 +122,7 @@ function App() {
           {/* Card Content */}
           <div className="relative z-20 flex flex-col justify-between h-full text-white">
             <div className="flex justify-between items-start">
-              <div className="h-11 w-11 rounded-xl bg-gradient-to-br from-[#4261e4] to-indigo-700 flex items-center justify-center text-white font-black text-xs shadow-md border border-white/10 shrink-0">
+              <div className="h-14 w-14 rounded-xl bg-gradient-to-br from-[#4261e4] to-indigo-700 flex items-center justify-center text-white font-black text-sm px-3 py-2 shadow-md border border-white/10 shrink-0">
                 UTCN
               </div>
             </div>
