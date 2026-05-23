@@ -1,0 +1,26 @@
+# ClujHackathon2026
+
+**Filtrare inteligentă a locurilor de muncă folosind AI**
+
+## Ideea proiectului
+
+Colectăm toate locurile de muncă de pe [peviitor.ro](https://peviitor.ro) și, pe baza unor tag-uri generate automat cu ajutorul AI, determinăm ce joburi se potrivesc pentru fiecare facultate și școală profesională din România.
+
+## Stack tehnologic
+
+- **n8n** – orchestrare workflow-uri și colectare date
+- **OpenCode** – agenți AI pentru procesare și taguire
+- **AI (LLM)** – generare tag-uri și matching inteligent
+- **Peviitor.ro** – sursa principală de date (joburi)
+
+## Cum funcționează
+
+1. Extragem joburile din API-ul Peviitor
+2. Analizăm fiecare job cu ajutorul AI pentru a extrage tag-uri relevante (domeniu, tehnologii, skill-uri, nivel)
+3. Mapăm facultățile și școlile profesionale pe baza profilelor lor de studiu
+4. Match-uim tag-urile joburilor cu profilurile instituțiilor de învățământ
+5. Generăm recomandări personalizate per instituție
+
+## Contribuții
+
+Contribuțiile sunt binevenite!
