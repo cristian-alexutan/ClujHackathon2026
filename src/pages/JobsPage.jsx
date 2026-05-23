@@ -104,7 +104,7 @@ export function JobsPage({
           ref={listRef}
           role="list"
           aria-label="Listă locuri de muncă"
-          className="flex flex-col gap-3 overflow-y-auto overflow-x-hidden snap-y snap-mandatory"
+          className="flex flex-col gap-3 overflow-y-auto overflow-x-hidden pr-1 snap-y snap-mandatory"
         >
           {filteredJobs.map((job, idx) => (
             <div
