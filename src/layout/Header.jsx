@@ -24,7 +24,7 @@ export function Header({
           size="icon"
           onClick={toggleTheme}
           className="h-7 w-7 rounded-lg text-text hover:text-text-h hover:bg-border/40 border-0 flex items-center justify-center"
-          aria-label={theme === "light" ? "Dark mode" : "Light mode"}
+          aria-label={theme === "light" ? "Mod întunecat" : "Mod luminos"}
         >
           {theme === "light" ? (
             <Moon className="w-4 h-4" />

@@ -15,7 +15,7 @@ const gradients = [
   "from-fuchsia-600 to-pink-700",
   "from-cyan-500 to-blue-600",
   "from-yellow-500 to-amber-600",
-  "from-blue-800 to-indigo-950"
+  "from-blue-800 to-indigo-950",
 ];
 
 function getLogoBg(companyName) {
@@ -31,13 +31,18 @@ function getLogoBg(companyName) {
 export async function getJobs() {
   let jobsData;
   try {
-    const response = await fetch("https://raw.githubusercontent.com/peviitor-ro/ClujHackathon2026/refs/heads/main/jobs_100.json");
+    const response = await fetch(
+      "https://raw.githubusercontent.com/peviitor-ro/ClujHackathon2026/refs/heads/main/jobs_100.json",
+    );
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
     jobsData = await response.json();
   } catch (error) {
-    console.warn("Failed to fetch remote jobs, falling back to local dataset:", error);
+    console.warn(
+      "Failed to fetch remote jobs, falling back to local dataset:",
+      error,
+    );
     jobsData = localJobs;
   }
 
@@ -48,22 +53,17 @@ export async function getJobs() {
       title: job.title || "Job Fără Titlu",
       company: company,
       logoBg: getLogoBg(company),
-      location: Array.isArray(job.location) ? job.location.join(", ") : (job.location || "Nespecificat"),
-      salary: Array.isArray(job.salary) ? job.salary.join(", ") : (job.salary || null),
+      location: Array.isArray(job.location)
+        ? job.location.join(", ")
+        : job.location || "Nespecificat",
+      salary: Array.isArray(job.salary)
+        ? job.salary.join(", ")
+        : job.salary || null,
       date: job.date || null,
       status: job.status || "published",
       f_tag: job.f_tag || [],
       url: job.url || "",
-      _root_: job._root_ || job.url || ""
+      _root_: job._root_ || job.url || "",
     };
   });
-}
-
-export function getApplications() {
-  const saved = localStorage.getItem("ubb-ledger-apps");
-  return saved ? JSON.parse(saved) : [];
-}
-
-export function saveApplications(apps) {
-  localStorage.setItem("ubb-ledger-apps", JSON.stringify(apps));
 }

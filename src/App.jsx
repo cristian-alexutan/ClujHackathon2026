@@ -89,6 +89,8 @@ function App() {
         ) : (
           <JobsPage
             filteredJobs={filteredJobs}
+            totalJobsCount={jobs.length}
+            onResetFilter={() => setStudent({ ...student, faculty: ALL_FACULTIES_OPTION })}
             onApply={handleApplyStart}
           />
         )}

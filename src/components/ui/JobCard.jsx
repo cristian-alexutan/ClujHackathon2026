@@ -38,9 +38,10 @@ function HoverScrollingText({ text, className, as: Component = "div" }) {
           overflow: isHovered && scrollDistance > 0 ? "visible" : "hidden",
           display: "block",
           transform: `translateX(-${scrollDistance}px)`,
-          transition: isHovered && scrollDistance > 0 
-            ? `transform ${scrollDistance * 0.015}s linear` 
-            : "transform 0.3s ease-out",
+          transition:
+            isHovered && scrollDistance > 0
+              ? `transform ${scrollDistance * 0.015}s linear`
+              : "transform 0.3s ease-out",
         }}
       >
         {text}
@@ -101,17 +102,19 @@ export function JobCard({ job, onApply }) {
               />
             </div>
           )}
-
-          {/* Tags on the right */}
           <div
             className="flex items-center gap-1 shrink-0 ml-auto"
             aria-label="Tehnologii și competențe"
           >
             {((job.f_tag || []).length > 2
               ? [...(job.f_tag || []).slice(0, 2), "..."]
-              : (job.f_tag || [])
+              : job.f_tag || []
             ).map((tag, idx) => (
-              <Badge key={`${tag}-${idx}`} variant="secondary" className="text-[10px] px-1.5 py-0.5 whitespace-nowrap">
+              <Badge
+                key={`${tag}-${idx}`}
+                variant="secondary"
+                className="text-[10px] px-1.5 py-0.5 whitespace-nowrap"
+              >
                 {tag}
               </Badge>
             ))}
