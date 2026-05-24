@@ -18,14 +18,11 @@ import {
   ChevronDown,
   Search,
   ExternalLink,
-  Moon,
-  Sun,
 } from "lucide-react";
 import roFlag from "../assets/ro.gif";
 import enFlag from "../assets/en.gif";
 import logoImg from "../assets/UNIVTB-01.png";
-import { getJobs } from "../services/api";
-import { JobsPage } from "./JobsPage";
+import Widget from "../components/Widget";
 
 // CountUp Component for stats counters
 function CountUp({ to, duration = 2000 }) {
@@ -59,22 +56,6 @@ export default function MateInfoUnitbv({ onBack }) {
   const [isStudentsDropdownOpen, setIsStudentsDropdownOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
-  const [jobs, setJobs] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [widgetTheme, setWidgetTheme] = useState("light");
-
-  useEffect(() => {
-    let active = true;
-    getJobs().then((data) => {
-      if (active) {
-        setJobs(data);
-        setLoading(false);
-      }
-    });
-    return () => {
-      active = false;
-    };
-  }, []);
 
   const sliderImages = [
     "https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&w=1600&q=80",
@@ -725,7 +706,8 @@ export default function MateInfoUnitbv({ onBack }) {
                     Rezultate admitere
                   </h4>
                   <p className="text-xs text-slate-500 leading-relaxed mb-4">
-                    Află rezultatele admiterii la licență, masterat sau doctorat.
+                    Află rezultatele admiterii la licență, masterat sau
+                    doctorat.
                   </p>
                 </div>
                 <a
@@ -742,56 +724,13 @@ export default function MateInfoUnitbv({ onBack }) {
 
           {/* Job Board Widget */}
           <div className="lg:col-span-4 flex justify-center w-full">
-            <div className={`bg-bg text-text border border-border rounded-2xl shadow-sm overflow-hidden flex flex-col w-full max-w-[320px] mx-auto transition-colors duration-200 ${widgetTheme}`}>
-              {/* Widget Header */}
-              <div className="flex items-center justify-between px-3 py-2 bg-bg border-b border-border/60">
-                <span className="text-sm font-bold tracking-tight text-text-h">
-                  peViitor.ro
-                </span>
-                <button
-                  onClick={() => setWidgetTheme(widgetTheme === "light" ? "dark" : "light")}
-                  className="h-7 w-7 rounded-lg text-text hover:text-text-h hover:bg-border/40 border-0 flex items-center justify-center cursor-pointer transition-colors"
-                  aria-label={widgetTheme === "light" ? "Mod întunecat" : "Mod luminos"}
-                >
-                  {widgetTheme === "light" ? (
-                    <Moon className="w-4 h-4" />
-                  ) : (
-                    <Sun className="w-4 h-4" />
-                  )}
-                </button>
-              </div>
-
-              {/* Static Title (Facultatea de Matematica si Informatica UniTB) */}
-              <div className="p-3 bg-bg border-b border-border/60">
-                <div className="bg-[#007A87]/10 border border-[#007A87]/20 text-[#007A87] text-xs font-bold text-center py-2.5 px-3 rounded-xl shadow-xs">
-                  Facultatea de Matematică și Informatică UniTB
-                </div>
-              </div>
-
-              {/* Widget Body */}
-              <div className="p-3.5 bg-bg overflow-y-auto max-h-[420px]">
-                {loading ? (
-                  <div className="flex flex-col items-center justify-center py-16 text-xs text-slate-400 font-semibold gap-2">
-                    <div className="w-5 h-5 border-2 border-[#007A87] border-t-transparent rounded-full animate-spin"></div>
-                    <span>Se încarcă joburile...</span>
-                  </div>
-                ) : (
-                  <JobsPage
-                    filteredJobs={jobs.filter((job) =>
-                      (job.f_tag || []).includes("UBVFMIIA")
-                    )}
-                    totalJobsCount={jobs.length}
-                    onResetFilter={() => {}}
-                    onApply={(job) => {
-                      const applyUrl = job._root_ || job.url;
-                      if (applyUrl) {
-                        window.open(applyUrl, "_blank", "noopener,noreferrer");
-                      }
-                    }}
-                  />
-                )}
-              </div>
-            </div>
+            <Widget
+              isEmbedded={true}
+              embeddedTitle="Facultatea de Matematică și Informatică UniTB"
+              themeColor="#007A87"
+              embeddedTag="UBVFMIIA"
+              roundedClass="rounded-xl"
+            />
           </div>
         </div>
       </section>

@@ -6,14 +6,11 @@ import {
   ChevronDown,
   Search,
   ExternalLink,
-  Moon,
-  Sun,
   ChevronRight,
 } from "lucide-react";
 import acLogoImg from "../assets/ac_logo_small_complete.jpg";
 import utcnLogoAlb from "../assets/utcn-logo-alb.png";
-import { getJobs } from "../services/api";
-import { JobsPage } from "./JobsPage";
+import Widget from "../components/Widget";
 
 export default function Utcn({ onBack }) {
   const [activeSlide, setActiveSlide] = useState(0);
@@ -21,9 +18,7 @@ export default function Utcn({ onBack }) {
   const [activeDropdown, setActiveDropdown] = useState(null);
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
-  const [jobs, setJobs] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [widgetTheme, setWidgetTheme] = useState("light");
+
   const [isSticky, setIsSticky] = useState(false);
 
   const sliderImages = [
@@ -31,20 +26,6 @@ export default function Utcn({ onBack }) {
     "https://ac.utcluj.ro/files/Acasa/images/slide_images/HERO2rsz.png",
     "https://ac.utcluj.ro/files/Acasa/images/slide_images/HERO3rsz.png",
   ];
-
-  // Fetch jobs on mount
-  useEffect(() => {
-    let active = true;
-    getJobs().then((data) => {
-      if (active) {
-        setJobs(data);
-        setLoading(false);
-      }
-    });
-    return () => {
-      active = false;
-    };
-  }, []);
 
   // Auto-slide every 7 seconds
   useEffect(() => {
@@ -77,8 +58,8 @@ export default function Utcn({ onBack }) {
   };
 
   const headerClass = isSticky
-    ? "sticky lg:fixed top-0 lg:top-0 left-0 w-full bg-white shadow-md z-40 h-[70px] lg:h-[80px] flex items-center border-b border-gray-100 transition-all duration-300"
-    : "sticky lg:absolute top-0 lg:top-[100px] lg:left-1/2 lg:-translate-x-1/2 w-full lg:w-[calc(100%-4rem)] lg:max-w-7xl bg-white/95 lg:bg-white backdrop-blur-md lg:backdrop-blur-none z-40 border-b lg:border-none border-gray-100 lg:shadow-xl transition-all duration-300 h-[80px] lg:h-[105px] flex items-center";
+    ? "sticky lg:fixed top-0 lg:top-0 left-0 w-full bg-white shadow-md z-40 h-[70px] lg:h-[80px] flex items-center border-b border-gray-100"
+    : "sticky lg:absolute top-0 lg:top-[100px] lg:left-1/2 lg:-translate-x-1/2 w-full lg:w-[calc(100%-4rem)] lg:max-w-7xl bg-white/95 lg:bg-white backdrop-blur-md lg:backdrop-blur-none z-40 border-b lg:border-none border-gray-100 lg:shadow-xl h-[80px] lg:h-[105px] flex items-center";
 
   return (
     <div
@@ -651,62 +632,13 @@ export default function Utcn({ onBack }) {
 
           {/* Job Board Widget (White contrast theme against blue) */}
           <div className="lg:col-span-3 flex justify-center w-full">
-            <div
-              className={`bg-bg text-text border border-border rounded-none shadow-md overflow-hidden flex flex-col w-full max-w-[320px] mx-auto transition-colors duration-200 ${widgetTheme}`}
-            >
-              {/* Widget Header */}
-              <div className="flex items-center justify-between px-3 py-2 bg-bg border-b border-border/60">
-                <span className="text-sm font-bold tracking-tight text-text-h">
-                  peViitor.ro
-                </span>
-                <button
-                  onClick={() =>
-                    setWidgetTheme(widgetTheme === "light" ? "dark" : "light")
-                  }
-                  className="h-7 w-7 rounded-lg text-text hover:text-text-h hover:bg-border/40 border-0 flex items-center justify-center cursor-pointer transition-colors"
-                  aria-label={
-                    widgetTheme === "light" ? "Mod întunecat" : "Mod luminos"
-                  }
-                >
-                  {widgetTheme === "light" ? (
-                    <Moon className="w-4 h-4" />
-                  ) : (
-                    <Sun className="w-4 h-4" />
-                  )}
-                </button>
-              </div>
-
-              {/* Static Title Banner */}
-              <div className="p-3 bg-bg border-b border-border/60">
-                <div className="bg-[#4261e4]/10 border border-[#4261e4]/20 text-[#4261e4] text-xs font-bold text-center py-2.5 px-3 rounded-none shadow-xs">
-                  Facultatea de Automatică și Calculatoare UTCN
-                </div>
-              </div>
-
-              {/* Widget Body */}
-              <div className="p-3.5 bg-bg overflow-y-auto max-h-[420px]">
-                {loading ? (
-                  <div className="flex flex-col items-center justify-center py-16 text-xs text-slate-400 font-semibold gap-2">
-                    <div className="w-5 h-5 border-2 border-[#4261e4] border-t-transparent rounded-full animate-spin"></div>
-                    <span>Se încarcă joburile...</span>
-                  </div>
-                ) : (
-                  <JobsPage
-                    filteredJobs={jobs.filter((job) =>
-                      (job.f_tag || []).includes("UTCNAC"),
-                    )}
-                    totalJobsCount={jobs.length}
-                    onResetFilter={() => {}}
-                    onApply={(job) => {
-                      const applyUrl = job._root_ || job.url;
-                      if (applyUrl) {
-                        window.open(applyUrl, "_blank", "noopener,noreferrer");
-                      }
-                    }}
-                  />
-                )}
-              </div>
-            </div>
+            <Widget
+              isEmbedded={true}
+              embeddedTitle="Facultatea de Automatică și Calculatoare UTCN"
+              themeColor="#4261e4"
+              embeddedTag="UTCNAC"
+              roundedClass="rounded-none"
+            />
           </div>
         </div>
       </section>

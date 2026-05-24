@@ -63,7 +63,7 @@ function EmptyJobCard({ totalJobsCount, onResetFilter }) {
   );
 }
 
-export function JobsPage({
+export function JobsWrapper({
   filteredJobs,
   totalJobsCount,
   onResetFilter,

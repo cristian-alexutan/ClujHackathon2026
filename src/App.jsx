@@ -8,14 +8,15 @@ import utcnImg from "./assets/utcn.jpg";
 function App() {
   const [view, setView] = useState(() => {
     const hash = window.location.hash;
-    if (hash === "#/unitbv") return "unitbv";
-    if (hash === "#/utcn") return "utcn";
+    const decodedHash = decodeURIComponent(hash);
+    if (decodedHash.startsWith("#/unitbv")) return "unitbv";
+    if (decodedHash.startsWith("#/utcn")) return "utcn";
     return "home";
   });
 
   // Keep theme class updated on page load
   useState(() => {
-    const savedTheme = localStorage.getItem("ubb-theme") || "light";
+    const savedTheme = localStorage.getItem("peviitor-theme") || "light";
     const root = document.documentElement;
     if (savedTheme === "dark") {
       root.classList.add("dark");
@@ -28,9 +29,10 @@ function App() {
   useEffect(() => {
     const handleHashChange = () => {
       const hash = window.location.hash;
-      if (hash === "#/unitbv") {
+      const decodedHash = decodeURIComponent(hash);
+      if (decodedHash.startsWith("#/unitbv")) {
         setView("unitbv");
-      } else if (hash === "#/utcn") {
+      } else if (decodedHash.startsWith("#/utcn")) {
         setView("utcn");
       } else {
         setView("home");
@@ -43,9 +45,9 @@ function App() {
 
   const navigateTo = (newView) => {
     if (newView === "unitbv") {
-      window.location.hash = "/unitbv";
+      window.location.hash = `/unitbv-${encodeURIComponent("Facultatea de Matematică și Informatică")}`;
     } else if (newView === "utcn") {
-      window.location.hash = "/utcn";
+      window.location.hash = `/utcn-${encodeURIComponent("Facultatea de Automatică și Calculatoare")}`;
     } else {
       window.location.hash = "/";
     }
