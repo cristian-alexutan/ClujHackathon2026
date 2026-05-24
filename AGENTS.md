@@ -37,6 +37,31 @@ peviitor API  ──►  script (ada_check.mjs)  ──►  agenți (opencode)  
 
 ---
 
+## Validare URL-uri
+
+Înainte de a publica `jobs_100.json`, toate URL-urile trebuie verificate să returneze HTTP 200 (nu 404). Script de test:
+
+```bash
+node -e "
+const j = require('./jobs_100.json');
+async function check() {
+  for (let i = 0; i < j.length; i++) {
+    try {
+      const r = await fetch(j[i].url, { method: 'HEAD', headers: { 'User-Agent': 'Mozilla/5.0 Chrome/120' }, signal: AbortSignal.timeout(10000) });
+      console.log((i+1) + '. ' + r.status + ' ' + j[i].title);
+    } catch(e) {
+      console.log((i+1) + '. ERROR ' + j[i].title + ' - ' + e.message.substring(0,60));
+    }
+  }
+}
+check();
+"
+```
+
+Orice URL cu status diferit de 200 trebuie înlocuit sau eliminat înainte de commit.
+
+---
+
 ## Cum se adaugă un agent nou
 
 Vezi `INSTRUCTIONS.md` — pașii sunt:
