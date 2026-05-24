@@ -10,7 +10,6 @@ import {
 } from "lucide-react";
 import acLogoImg from "../assets/ac_logo_small_complete.jpg";
 import utcnLogoAlb from "../assets/utcn-logo-alb.png";
-import Widget from "../components/Widget";
 
 export default function Utcn({ onBack }) {
   const [activeSlide, setActiveSlide] = useState(0);
@@ -18,6 +17,17 @@ export default function Utcn({ onBack }) {
   const [activeDropdown, setActiveDropdown] = useState(null);
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const [iframeHeight, setIframeHeight] = useState(650);
+
+  useEffect(() => {
+    const handleMessage = (event) => {
+      if (event.data?.type === 'resize-iframe') {
+        setIframeHeight(event.data.height);
+      }
+    };
+    window.addEventListener('message', handleMessage);
+    return () => window.removeEventListener('message', handleMessage);
+  }, []);
 
   const [isSticky, setIsSticky] = useState(false);
 
@@ -77,7 +87,7 @@ export default function Utcn({ onBack }) {
         <span className="text-xs font-bold pr-1">Înapoi la Portal</span>
       </button>
 
-      {/* Black Top Utility Bar (Banda Neagră) */}
+      {/* Black Top Utility Bar */}
       <div className="utcn-topbar text-xs">
         <div className="max-w-7xl mx-auto flex justify-between items-center h-auto px-4 md:px-8">
           <div className="flex items-center gap-4 h-full">
@@ -632,12 +642,12 @@ export default function Utcn({ onBack }) {
 
           {/* Job Board Widget (White contrast theme against blue) */}
           <div className="lg:col-span-3 flex justify-center w-full">
-            <Widget
-              isEmbedded={true}
-              embeddedTitle="Facultatea de Automatică și Calculatoare UTCN"
-              themeColor="#4261e4"
-              embeddedTag="UTCNAC"
-              roundedClass="rounded-none"
+            <iframe
+              src={`#/widget?tag=UTCNAC&title=${encodeURIComponent("Facultatea de Automatică și Calculatoare UTCN")}&color=${encodeURIComponent("#4261e4")}&rounded=rounded-none`}
+              width="100%"
+              height={`${iframeHeight}px`}
+              className="border-none bg-transparent max-w-[320px] mx-auto w-full transition-all duration-300"
+              style={{ borderRadius: '0' }}
             />
           </div>
         </div>
@@ -648,7 +658,7 @@ export default function Utcn({ onBack }) {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           {/* Left Sidebar Links List */}
           <div className="lg:col-span-4 space-y-6">
-            {/* Box 1: Universitatea */}
+            {/* Box 1: University */}
             <div className="bg-slate-50 border border-gray-100 rounded-xl p-5 shadow-xs text-left">
               <h5 className="font-bold text-slate-800 text-sm uppercase tracking-wider mb-4 border-b border-gray-200 pb-2">
                 Universitatea
@@ -703,7 +713,7 @@ export default function Utcn({ onBack }) {
               </ul>
             </div>
 
-            {/* Box 2: Admitere */}
+            {/* Box 2: Admissions */}
             <div className="bg-slate-50 border border-gray-100 rounded-xl p-5 shadow-xs text-left">
               <h5 className="font-bold text-slate-800 text-sm uppercase tracking-wider mb-4 border-b border-gray-200 pb-2">
                 Admitere
@@ -746,7 +756,7 @@ export default function Utcn({ onBack }) {
               </ul>
             </div>
 
-            {/* Box 3: Sunt Student */}
+            {/* Box 3: I am a Student */}
             <div className="bg-slate-50 border border-gray-100 rounded-xl p-5 shadow-xs text-left">
               <h5 className="font-bold text-slate-800 text-sm uppercase tracking-wider mb-4 border-b border-gray-200 pb-2">
                 Sunt student
@@ -834,7 +844,7 @@ export default function Utcn({ onBack }) {
               </div>
             </div>
 
-            {/* Pagini vizitate frecvent (Replicated Box Spotlight exact grid layout) */}
+            {/* Frequently Visited Pages (Spotlight grid layout) */}
             <div className="space-y-6">
               <h3 className="text-xl font-extrabold text-slate-800 tracking-tight uppercase border-b border-gray-100 pb-2.5 font-serif text-center lg:text-left">
                 Pagini vizitate frecvent
@@ -1037,7 +1047,7 @@ export default function Utcn({ onBack }) {
             </ul>
           </div>
 
-          {/* Baia Mare & Extensii */}
+          {/* Baia Mare & Extensions */}
           <div className="md:col-span-3 space-y-4">
             <div className="space-y-2.5">
               <h6 className="text-white font-bold uppercase tracking-wider border-l-2 border-[#4261e4] pl-2">
@@ -1125,7 +1135,7 @@ export default function Utcn({ onBack }) {
             </div>
           </div>
 
-          {/* Admitere & Studenti links */}
+          {/* Admissions & Students links */}
           <div className="md:col-span-2 space-y-4">
             <div className="space-y-2.5">
               <h6 className="text-white font-bold uppercase tracking-wider border-l-2 border-[#4261e4] pl-2">

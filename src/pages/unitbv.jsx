@@ -22,7 +22,6 @@ import {
 import roFlag from "../assets/ro.gif";
 import enFlag from "../assets/en.gif";
 import logoImg from "../assets/UNIVTB-01.png";
-import Widget from "../components/Widget";
 
 // CountUp Component for stats counters
 function CountUp({ to, duration = 2000 }) {
@@ -56,6 +55,17 @@ export default function MateInfoUnitbv({ onBack }) {
   const [isStudentsDropdownOpen, setIsStudentsDropdownOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const [iframeHeight, setIframeHeight] = useState(650);
+
+  useEffect(() => {
+    const handleMessage = (event) => {
+      if (event.data?.type === 'resize-iframe') {
+        setIframeHeight(event.data.height);
+      }
+    };
+    window.addEventListener('message', handleMessage);
+    return () => window.removeEventListener('message', handleMessage);
+  }, []);
 
   const sliderImages = [
     "https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&w=1600&q=80",
@@ -724,12 +734,12 @@ export default function MateInfoUnitbv({ onBack }) {
 
           {/* Job Board Widget */}
           <div className="lg:col-span-4 flex justify-center w-full">
-            <Widget
-              isEmbedded={true}
-              embeddedTitle="Facultatea de Matematică și Informatică UniTB"
-              themeColor="#007A87"
-              embeddedTag="UBVFMIIA"
-              roundedClass="rounded-xl"
+            <iframe
+              src={`#/widget?tag=UBVFMIIA&title=${encodeURIComponent("Facultatea de Matematică și Informatică UniTB")}&color=${encodeURIComponent("#007A87")}&rounded=rounded-xl`}
+              width="100%"
+              height={`${iframeHeight}px`}
+              className="border-none bg-transparent max-w-[320px] mx-auto w-full transition-all duration-300"
+              style={{ borderRadius: '12px' }}
             />
           </div>
         </div>
@@ -780,14 +790,14 @@ export default function MateInfoUnitbv({ onBack }) {
         </div>
       </section>
 
-      {/* Programe de studii degrees pricing-like section */}
+      {/* Degree Programs Section */}
       <section className="max-w-6xl mx-auto px-4 py-16 text-center">
         <h2 className="text-2xl font-extrabold text-slate-800 mb-10 font-serif uppercase tracking-tight">
           Programe de studii
         </h2>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-left">
-          {/* Card 1: Licență */}
+          {/* Card 1: Bachelor's */}
           <div className="border border-gray-150 rounded-xl p-6 bg-white shadow-sm hover:shadow-md hover:border-[#007A87]/30 transition-all flex flex-col justify-between">
             <div>
               <Bookmark className="w-8 h-8 text-[#007A87] mb-4" />
@@ -809,7 +819,7 @@ export default function MateInfoUnitbv({ onBack }) {
             </a>
           </div>
 
-          {/* Card 2: Masterat */}
+          {/* Card 2: Master's */}
           <div className="border border-gray-150 rounded-xl p-6 bg-white shadow-sm hover:shadow-md hover:border-[#007A87]/30 transition-all flex flex-col justify-between">
             <div>
               <Compass className="w-8 h-8 text-[#007A87] mb-4" />
@@ -830,7 +840,7 @@ export default function MateInfoUnitbv({ onBack }) {
             </a>
           </div>
 
-          {/* Card 3: Doctorat */}
+          {/* Card 3: PhD */}
           <div className="border border-gray-150 rounded-xl p-6 bg-white shadow-sm hover:shadow-md hover:border-[#007A87]/30 transition-all flex flex-col justify-between">
             <div>
               <Award className="w-8 h-8 text-[#007A87] mb-4" />
@@ -854,7 +864,7 @@ export default function MateInfoUnitbv({ onBack }) {
         </div>
       </section>
 
-      {/* Cercetare (Research) Section */}
+      {/* Research Section */}
       <section className="bg-slate-50 border-t border-b border-gray-100 py-16">
         <div className="max-w-6xl mx-auto px-4 text-center">
           <h2 className="text-2xl font-extrabold text-slate-800 mb-10 font-serif uppercase tracking-tight">
@@ -941,7 +951,7 @@ export default function MateInfoUnitbv({ onBack }) {
         </div>
       </section>
 
-      {/* Știri și Evenimente (News and Events) */}
+      {/* News and Events */}
       <section className="max-w-6xl mx-auto px-4 py-16 text-center">
         <h2 className="text-2xl font-extrabold text-slate-800 mb-10 font-serif uppercase tracking-tight">
           Știri și evenimente
