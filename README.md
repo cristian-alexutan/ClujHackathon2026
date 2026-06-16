@@ -21,6 +21,10 @@ Colectăm toate locurile de muncă de pe [peviitor.ro](https://peviitor.ro) și,
 4. Match-uim tag-urile joburilor cu profilurile instituțiilor de învățământ
 5. Generăm recomandări personalizate per instituție
 
+## Local tag
+
+După ce am făcut fork la repo, în local_tag.md, în root, scriem tag-ul folosit de această facultate.
+
 ## Widget Incorporabil
 
 Widget-ul de joburi **poate fi încorporat pe site-ul oricărei facultăți** printr-un simplu `<iframe>`. O singură linie de cod este suficientă:
