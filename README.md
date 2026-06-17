@@ -21,9 +21,13 @@ Colectăm toate locurile de muncă de pe [peviitor.ro](https://peviitor.ro) și,
 4. Match-uim tag-urile joburilor cu profilurile instituțiilor de învățământ
 5. Generăm recomandări personalizate per instituție
 
-## Local tag
+## Local tag:
 
 După ce am făcut fork la repo, în local_tag.md, în root, scriem tag-ul folosit de această facultate.
+
+## Lista materii:
+
+In dir filter/ punem un fisier .md care are ca nume tagul mentionat anterior, cu lista de materii.
 
 ## Widget Incorporabil
 
