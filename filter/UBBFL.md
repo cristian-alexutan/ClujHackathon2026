@@ -1,8 +1,6 @@
 # Fișe de Disciplină — Facultatea de Litere, Universitatea Babeș-Bolyai
 
 **An universitar:** 2026–2027
-**Sursă:** https://lett.ubbcluj.ro/curricula-licenta/curricula-2026-2029-licenta/
-
 ---
 
 ## Licență (Studii universitare de licență)
