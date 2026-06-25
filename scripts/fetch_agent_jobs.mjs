@@ -20,8 +20,8 @@ function readAgentPrompt() {
 function runOpencode(promptText, timeout = 180000) {
   const stdout = execFileSync('opencode', [
     'run', '--model', 'opencode/big-pickle', '--format', 'json',
-    '--dangerously-skip-permissions', promptText,
-  ], { timeout, encoding: 'utf-8', maxBuffer: 10 * 1024 * 1024 });
+    '--dangerously-skip-permissions',
+  ], { input: promptText, timeout, encoding: 'utf-8', maxBuffer: 10 * 1024 * 1024 });
 
   let text = '';
   for (const line of stdout.split('\n').filter(l => l.trim())) {
