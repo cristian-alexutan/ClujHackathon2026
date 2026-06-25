@@ -1,1 +1,0 @@
-`agents/student.md` generat cu 8 categorii de skilluri extrase din curriculumul Facultății de Litere, UBB.
