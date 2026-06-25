@@ -38,15 +38,17 @@ function extractJsonArray(text) {
 function generateKeywords(agentPrompt) {
   const prompt = `${agentPrompt}
 
-Based on the skills and profile above, generate a JSON array of the 25 most relevant single-word or short-phrase search keywords to find suitable job opportunities for this student on a job search API.
+Based on the skills and profile above, generate a JSON array of 30 single-word or short-phrase search keywords to find suitable job opportunities for this student on a Romanian job search API (peviitor.ro).
 
 Rules:
 - Each keyword should be a short string (1-3 words)
-- Include technical skills (e.g. "python", "java", "machine learning")
-- Include job level keywords (e.g. "internship", "junior", "software engineer")
-- Focus on what this specific student would apply for
+- Include specific skills from the profile (e.g. languages, tools, domains)
+- Include general entry-level keywords: "internship", "junior", "entry level", "student"
+- Include broad categories: "administrativ", "call center", "customer support", "data entry", "content"
+- Cover diverse areas a humanities student could work in: "translator", "editor", "redactor", "scriitor", "PR", "marketing", "resurse umane", "secretara", "operator"
+- Focus on finding ANY suitable jobs, not just perfect matches
 
-Return ONLY the JSON array, no other text. Example: ["python", "java", "internship", "software"]`;
+Return ONLY the JSON array, no other text. Example: ["internship", "junior", "translator", "editor", "administrativ"]`;
 
   const result = runOpencode(prompt);
   return extractJsonArray(result);
@@ -86,6 +88,20 @@ for (const q of keywords) {
       if (!seen.has(doc.id)) { seen.add(doc.id); allJobs.push(doc); }
     }
   } catch (e) {}
+}
+
+if (allJobs.length < 50) {
+  const fallback = ['internship', 'junior', 'entry level', 'angajam', 'student', 'tester', 'operator', 'asistent', 'call center', 'customer support', 'data entry'];
+  process.stdout.write(`Only ${allJobs.length} jobs found, trying fallback keywords...\n`);
+  for (const q of fallback) {
+    try {
+      const r = await fetch(`https://api.peviitor.ro/v1/search/?q=${encodeURIComponent(q)}&page=1`);
+      const d = await r.json();
+      for (const doc of d.response?.docs || []) {
+        if (!seen.has(doc.id)) { seen.add(doc.id); allJobs.push(doc); }
+      }
+    } catch (e) {}
+  }
 }
 process.stdout.write(`Found ${allJobs.length} unique jobs total\n`);
 
