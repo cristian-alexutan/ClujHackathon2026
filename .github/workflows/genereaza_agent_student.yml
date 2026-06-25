@@ -2,9 +2,6 @@ name: Genereaza Agent Student
 
 on:
   workflow_dispatch:
-  push:
-    paths:
-      - 'conf/local_tag.md'
 
 permissions:
   contents: write

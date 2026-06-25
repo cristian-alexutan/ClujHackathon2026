@@ -7,9 +7,9 @@ function readTagFile() {
   const text = readFileSync(TAG_FILE, 'utf-8').trim();
   const lines = text.split('\n').map(l => l.trim());
   const tag = lines[0];
-  const sourceLine = lines.find(l => l.startsWith('sursa:') || l.startsWith('sursa :'));
+  const sourceLine = lines.find(l => /sursa?\s*:/i.test(l.replace(/[*"]/g, '')));
   const source = sourceLine
-    ? sourceLine.replace(/^sursa\s*:\s*/, '')
+    ? sourceLine.replace(/^[*\s]*sursa?\s*:\s*/i, '')
     : '';
 
   if (!tag) throw new Error(`No tag found in ${TAG_FILE}`);
