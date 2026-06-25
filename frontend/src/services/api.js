@@ -1,4 +1,4 @@
-import localJobs from "../../jobs_100.json";
+import localJobs from "../../../jobs_100.json";
 
 const gradients = [
   "from-blue-500 to-cyan-600",
