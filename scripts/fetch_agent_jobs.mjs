@@ -89,7 +89,8 @@ for (const q of keywords) {
     const r = await fetch(`https://api.peviitor.ro/v1/search/?q=${encodeURIComponent(q)}&page=1`);
     const d = await r.json();
     for (const doc of d.response?.docs || []) {
-      if (!seen.has(doc.id)) { seen.add(doc.id); allJobs.push(doc); }
+      const key = doc.url || doc.title || JSON.stringify(doc);
+      if (!seen.has(key)) { seen.add(key); allJobs.push(doc); }
     }
     } catch (e) { process.stderr.write(`  API error for keyword "${q}": ${e}\n`); }
 }
@@ -102,7 +103,8 @@ if (allJobs.length < 50) {
       const r = await fetch(`https://api.peviitor.ro/v1/search/?q=${encodeURIComponent(q)}&page=1`);
       const d = await r.json();
       for (const doc of d.response?.docs || []) {
-        if (!seen.has(doc.id)) { seen.add(doc.id); allJobs.push(doc); }
+        const key = doc.url || doc.title || JSON.stringify(doc);
+        if (!seen.has(key)) { seen.add(key); allJobs.push(doc); }
       }
     } catch (e) { process.stderr.write(`  API error for fallback "${q}": ${e}\n`); }
   }
