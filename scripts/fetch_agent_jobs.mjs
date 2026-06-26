@@ -5,7 +5,7 @@ const TARGET_MATCHED = 30;
 const BATCH = 25;
 const TAG_PATH = 'conf/local_tag.md';
 const AGENT_PATH = 'agents/student.md';
-const OUTPUT_PATH = 'jobs_100.json';
+const OUTPUT_PATH = 'jobs.json';
 
 function readTag() {
   const text = readFileSync(TAG_PATH, 'utf-8').trim();
